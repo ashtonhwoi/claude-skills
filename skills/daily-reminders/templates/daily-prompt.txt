@@ -1,0 +1,34 @@
+You are my assistant, refreshing my "Today" to-do list in Apple Reminders. This may run unattended and nobody will reply. Do the job, then print a one-line summary.
+
+Helpers live in ~/.claude/skills/daily-reminders/scripts/:
+- `osascript rem-dump.applescript`: prints each item in the Today list as `done|title` or `open|title`
+- `osascript rem-add.applescript "<title>" "<HH:MM or empty>" "<notes>" "<priority>"`: priority 1 = high, 5 = medium, 9 = low
+- `osascript rem-clear-done.applescript`: deletes ticked items
+- `osascript rem-clear-timed-open.applescript`: deletes unticked calendar items (titles starting with 🕐)
+- `osascript -l JavaScript cal-today.js [daysAhead]`: today's calendar events from macOS Calendar
+
+STEP 1: Close out the previous day.
+Run rem-dump. Append the ticked (`done|`) items to the END of ~/today-journal.md as a new section:
+`## <previous day's date YYYY-MM-DD> — ticked off in Reminders`, then one `- ` line per item.
+Under it add `Not done:` and list the open items that are not 🕐 events, so the record shows what slipped. If nothing was ticked, write "nothing ticked". Only append; never change existing lines.
+Then run rem-clear-done and rem-clear-timed-open. Open tasks stay in the list and roll over.
+
+STEP 2: Read today's inputs.
+a) Calendar: run cal-today.js with 1 (today and tomorrow).
+b) <YOUR DEADLINES FILE, e.g. ~/deadlines.csv>: items due today or within the next 3 days whose status isn't done.
+c) The tail of ~/today-journal.md (about 80 lines), to see what's already been done.
+d) Any other notes you want it to read (a plan file, a project to-do).
+
+STEP 3: Add today's items.
+- For every calendar event today, add `🕐 <title> (<location>)` with its start time and priority 5. Use priority 1 for exams, presentations, or anything graded or paid.
+- Add tasks: things due today, prep for important items due within 3 days, and open follow-ups from your notes. Priority 1 for work due within 2 days, 5 for other real work, 9 for nice-to-haves.
+- If tomorrow has something important, or anything before 10:00, add ONE item: `Tomorrow: ...` (priority 5).
+- STANDING DAILY ITEMS: <LIST YOURS, e.g. `Gym`, `Deep work block`> (priority 5) unless one is already open. They don't count toward the cap.
+- At most 8 other non-🕐 items in total, counting the rolled-over ones. When over the cap, drop the lowest priority first.
+- Never add an item that's already open in the list (compare meaning, not exact words) or that the journal shows as done.
+- Write each title as a short action. Put the useful detail (links, file paths, deadlines) in the notes.
+- Never invent a date. If a deadline is unknown, say TBC.
+
+RULES: Only touch the "Today" Reminders list and append to ~/today-journal.md. Don't create or edit calendar events, don't send messages, don't edit any other file.
+
+Finish with one line, for example: "Today: 3 events, 6 tasks (2 rolled over), logged 4 done."

@@ -12,7 +12,14 @@ that survived real use, not the ones that were fun to write.
 |---|---|
 | [`lfg`](skills/lfg) | Turns a half-formed thought into a production-grade prompt, waits for a one-word approval, then runs it. Solves the problem where you know what you want but not how to ask for it. |
 | [`tech-company-analyst`](skills/tech-company-analyst) | Fans out one research subagent per company in parallel, then synthesises a single analyst briefing — reactions, competitive read, 6–24 month outlook, and an "Explain Like I'm 15" ending. |
+| [`daily-reminders`](skills/daily-reminders) | A headless morning job that rebuilds an Apple Reminders "Today" list from your calendar, deadlines and unfinished tasks, and keeps a journal of what you ticked off. macOS. |
 | [`secretary`](skills/secretary) | A chief-of-staff that keeps a small plain-text store (goal, deadlines, money, main project, log) and answers "what do I do today" from it. Includes a setup interview and blank templates so anyone can make it theirs. |
+
+## Subagents
+
+| Agent | What it does |
+|---|---|
+| [`invest-analyst`](agents/invest-analyst.md) | A read-only market analyst for stocks and crypto. Returns a 13-section report with scenario probabilities and an explicit, table-backed confidence score. It has no order or trade tools, by design. Copy to `~/.claude/agents/`. |
 
 ## Install
 
@@ -23,6 +30,8 @@ git clone https://github.com/ashtonhwoi/claude-skills.git
 cp -R claude-skills/skills/lfg ~/.claude/skills/
 cp -R claude-skills/skills/tech-company-analyst ~/.claude/skills/
 cp -R claude-skills/skills/secretary ~/.claude/skills/
+cp -R claude-skills/skills/daily-reminders ~/.claude/skills/
+cp claude-skills/agents/invest-analyst.md ~/.claude/agents/
 ```
 
 Then invoke with `/lfg` or by describing the task — each skill's `description`
